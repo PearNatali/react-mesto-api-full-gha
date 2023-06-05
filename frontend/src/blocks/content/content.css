@@ -1,0 +1,25 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto 68px auto;
+    flex: 1;
+}
+
+@media screen and (max-width: 1140px) {
+    .content {
+        margin: 0 auto 60px auto;
+    }
+}
+
+@media screen and (max-width: 984px) {
+    .content {
+        margin: 0 auto 54px auto;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .content {
+        margin: 0 auto 48px auto;
+        padding: 0 19px 0 19px;
+    }
+}

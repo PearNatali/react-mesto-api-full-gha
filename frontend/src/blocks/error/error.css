@@ -1,0 +1,17 @@
+.error {
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 12px;
+    line-height: 15px;
+    font-style: normal;
+    font-weight: 400;
+    text-align: start;
+    min-height: 30px;
+    max-width: 358px;
+    color: rgba(255, 0, 0, 1);
+}
+
+@media screen and (max-width: 565px) {
+    .error {
+        max-width: 238px;
+    }
+}

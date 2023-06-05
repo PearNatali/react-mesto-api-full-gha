@@ -1,0 +1,13 @@
+.popup__content {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 34px 36px 36px;
+}
+
+@media screen and (max-width: 765px) {
+    .popup__content {
+        margin: 25px 22px 25px;
+    }
+}

@@ -1,0 +1,12 @@
+.footer {
+    width: 100%;
+    display: flex;
+    margin: 0 auto;
+    flex-shrink: 0;
+}
+
+@media screen and (max-width: 530px) {
+    .footer {
+        max-width: 282px;
+    }
+}

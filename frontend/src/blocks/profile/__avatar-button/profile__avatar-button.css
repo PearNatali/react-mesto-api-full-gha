@@ -1,0 +1,46 @@
+.profile__avatar-button {
+    outline: none;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    display: block;
+    margin-right: 30px;
+    padding: 0;
+    border: 1px solid black;
+    cursor: pointer;
+    position: relative;
+}
+.profile__avatar-button:hover:after {
+    background: url('../../../images/pencil.svg') rgba(0,0,0,.8) no-repeat 50%;
+    background-size: 26px;
+    bottom: 0;
+    color: #fff;
+    content: "";
+    cursor: pointer;
+    display: block;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+@media screen and (max-width: 770px) {
+    .profile__avatar-button {
+        width: 100px;
+        height: 100px;
+        margin-right: 20px;
+    }
+}
+@media screen and (max-width: 665px) {
+    .profile__avatar-button {
+        margin-bottom: 10px;
+        margin-right: 0;
+    }
+}
+@media screen and (max-width: 600px) {
+    .profile__avatar-button {
+        width: 120px;
+        height: 120px;
+        align-self: center;
+    }
+}

@@ -1,0 +1,6 @@
+.popup__container_zoom {
+    display: flex;
+    min-width: 0;
+    box-sizing: border-box;
+    margin: auto;
+}

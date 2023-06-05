@@ -1,0 +1,15 @@
+.logo {
+    width: 142px;
+    height: 33px;
+    cursor: pointer;
+    padding-bottom: 40px;
+}
+
+@media screen and (max-width: 568px) {
+    .logo {
+        margin: 0 auto 0 27px;
+        padding-bottom: 31.6px;
+        width: 103.74px;
+        height: 24.4px;
+    }
+}

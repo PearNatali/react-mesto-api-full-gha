@@ -1,0 +1,23 @@
+.card__button_like {
+    display: flex;
+    height: 19px;
+    width: 22px;
+    border-style: none;
+    box-sizing: border-box;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-image: url('../../../../images/like.svg');
+    background-color: transparent;
+}
+
+.card__button_like:hover {
+    opacity: 50%;
+    transition: .3s ease-in-out;
+}
+
+.card__button_like_active {
+    background-image: url('../../../../images/like-active.svg');
+}
+
+
+

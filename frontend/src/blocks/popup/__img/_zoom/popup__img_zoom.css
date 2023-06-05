@@ -1,0 +1,7 @@
+.popup__img_zoom {
+    cursor: pointer;
+    max-width: 75vw;
+    max-height: 75vh;
+    z-index: 2;
+    border-radius: 10px;
+}
