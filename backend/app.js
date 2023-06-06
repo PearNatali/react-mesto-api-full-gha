@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
+const cors = require('cors');
 
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
@@ -19,6 +20,8 @@ const handleErrors = require('./middlewares/handleErrors');
 const { NotFoundError } = require('./errors/NotFoundError');
 
 const app = express();
+
+app.use(cors())
 
 mongoose.connect(MONGO_DB);
 
