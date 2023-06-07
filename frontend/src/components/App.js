@@ -25,7 +25,7 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isPopupPictureOpen, setIsPopupPictureOpen] = useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
-  const [isRegisterSuccess, setIsRegisterSuccess] = useState(false);
+  const [isRegisterSuccess] = useState(false);
   const [selectedCard, setSelectedCard] = useState({ });
   const [currentUser, setCurrentUser] = useState({ });
   const [cards, setCards] = useState([]);
