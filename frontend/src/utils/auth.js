@@ -6,9 +6,8 @@ export const checkRequest = (res) => {
     } else {
         console.log();
         return Promise.reject(`${res.status} ${res.statusText}`)
-    }
+    };
 };
-
 export const register = (email, password) => {
     const newUrl = baseUrl + '/signup';
     return fetch(newUrl, {
@@ -20,8 +19,7 @@ export const register = (email, password) => {
         body: JSON.stringify({ email, password })
     })
     .then(res => checkRequest(res))
-}
-
+};
 export const authorize = (email, password) => {
     const newUrl = baseUrl + '/signin';
         return fetch(newUrl, {
@@ -39,8 +37,7 @@ export const authorize = (email, password) => {
                 return data
             }
         })
-}
-
+};
 export const checkToken = (token) => {
     const newUrl = baseUrl + '/user/me';
         return fetch(newUrl, {
@@ -52,4 +49,4 @@ export const checkToken = (token) => {
             }
         })
         .then(res => checkRequest(res))
-}
+};

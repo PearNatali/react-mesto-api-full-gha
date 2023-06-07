@@ -33,8 +33,7 @@ class Api {
             body: JSON.stringify({ name, about }),
         })
         .then(this._checkRequest);
-    }
-
+    };
     addCard(data) {
         const newUrl = this._url + '/cards'
         return fetch(newUrl, {
@@ -46,8 +45,7 @@ class Api {
           })
         })
         .then(this._checkRequest);
-    }
-
+    };
     changeAvatar(link) {
         const newUrl = this._url + `/users/me/avatar`;
         return fetch(newUrl, {
@@ -58,7 +56,7 @@ class Api {
             })
         })
         .then(this._checkRequest);
-    }
+    };
     toggleLike(isLiked, cardId) {
         let method = 'PUT';
         if (isLiked) {
@@ -69,7 +67,7 @@ class Api {
           headers: this._headers
         })
           .then(res => this._checkRequest(res))
-    }
+    };
     deleteCard(cardId) {
         const newUrl = this._url + `/cards/${cardId}`;
         return fetch(newUrl, {
@@ -77,12 +75,11 @@ class Api {
           headers: this._headers,
         })
         .then(this._checkRequest);
-    }
+    };
     getPageData(){
         return Promise.all([this.getInitialCards(), this.getUserInfo()]);
-    }
-
-}
+    }''
+};
 const api = new Api({
     url: 'https://mesto.nomoreparties.co/v1/cohort-60',
     headers: {
