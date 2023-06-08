@@ -191,7 +191,7 @@ function App() {
                   onLikeClick={handleCardLike}
                   onDeleteClick={handleCardDelete}/>
               }/>
-              <Route path='/sign-in' element={<Login handleLogin={handleLogin} checkToken = {checkToken}/>} />
+              <Route path='/sign-in' element={<Login handleLoginFail={handleLoginFail} handleLogin = {handleLogin}/>} />
               <Route path='/sign-up' element={<Register handleRegister={handleRegister}/>} />
           </Routes>
           <Footer/>
