@@ -25,63 +25,31 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isPopupPictureOpen, setIsPopupPictureOpen] = useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
-  const [isRegisterSuccess, setIsTooltipSuccess] = useState(false);
+  const [isRegisterSuccess, setIsRegisterSuccess] = useState(false);
   const [selectedCard, setSelectedCard] = useState({ });
   const [currentUser, setCurrentUser] = useState({ });
   const [cards, setCards] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
-  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
 
-  const handleRegister = (isRegisterSuccess) => {
-    setIsInfoTooltipOpen(true);
-    setIsTooltipSuccess(isRegisterSuccess);
-  }
+    const navigate = useNavigate();
 
-  const handleLogin = () => {
-    const token = localStorage.getItem('token');
-    if (token) {
-        api.setHeaders(token);
-        Promise.all([api.getUserInfo(), api.getInitialCards()])
+    useEffect(() => {
+      handleTokenCheck()
+     
+    }, [])
+  
+  useEffect(() => {
+      if (loggedIn) {
+      Promise.all([api.getUserInfo(), api.getInitialCards()])
             .then(([userData, cards]) => {
-                setCurrentUser(userData);
-                setCards(cards);
-                setLoggedIn(true);
-                navigate("/main", {replace: true});
+              setCurrentUser(userData);
+              setCards(cards)
             })
             .catch(err => console.log(err))
-    }
-  }
+      }
+      }, [loggedIn])
 
-  const handleLoginFail = () => {
-    setIsInfoTooltipOpen(true);
-    setIsTooltipSuccess(false);
-}
-
-  const handleSignOut = () => {
-    setLoggedIn(false);
-    setCurrentUser({});
-    setCards([]);
-    localStorage.removeItem('token');
-  }
-
-  useEffect(() => {
-    checkToken();
-  }, []);
-
-  const checkToken = () => {
-    const token = localStorage.getItem('token');
-        if (token) {
-            api.setHeaders(token);
-            Promise.all([api.getUserInfo(), api.getInitialCards()])
-                .then(([userData, cards]) => {
-                    setCurrentUser(userData);
-                    setCards(cards);
-                    setLoggedIn(true);
-                    navigate("/main", {replace: true});
-                })
-                .catch(err => console.log(err))
-        }
-  };
 
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
@@ -168,21 +136,84 @@ function App() {
         .catch(err => console.log(err))
   }
 
+  const handleRegister = (email, password) => {
+    if (!email || !password){
+      return;
+  }
+    auth.register(email, password)
+      .then((res) => {
+        setIsInfoTooltipOpen(true);
+        if(res) {
+          navigate('/sign-in', {replace: true});
+          setIsRegisterSuccess(true);
+        }
+      })
+      .catch(() => {
+        setIsInfoTooltipOpen(true);
+        setIsRegisterSuccess(false);
+      });
+  }
+
+  const handleLogin = (email, password) => {
+    if (!email || !password){
+      return;
+  }
+    auth.authorize(email, password)
+      .then((data) => {
+        if(data && data.token) {
+          setLoggedIn(true);
+          setEmail(email);
+          localStorage.setItem('token', data.token);
+          navigate('/main' , {replace: true});
+        } else {
+          alert ("Неверный логин или пароль")
+        }
+      })
+      .catch(() => {
+        setIsInfoTooltipOpen(true);
+        setIsRegisterSuccess(true);
+        setLoggedIn(false);
+      })
+  }
+  
+  const handleSignOut = () => {
+    setLoggedIn(false);
+    setEmail(' ');
+    localStorage.removeItem('token');
+  }
+
+ const handleTokenCheck = () => {
+      const token = localStorage.getItem('token');
+      if (localStorage.getItem('token')) {
+      auth.checkToken(token)
+        .then((res) => {
+          if (res) {
+            setLoggedIn(true);
+            setEmail(res.data.email);
+            navigate('/main', {replace: true})
+          }
+        })
+        .catch(err => console.log(err))
+    }
+  }
+
   return (
     <CardsContext.Provider value={cards}>
       <CurrentUserContext.Provider value={currentUser}>
-        <div className='page'>
-          <div className='page__content'>
-          <Header onSignOut={handleSignOut} />
+        <div className="page">
+          <div className="page__content">
+          <Header email={email} onSignOut={handleSignOut} />
           <Routes>
+            <Route path='/sign-up' element={<Register handleRegister={handleRegister}/>} />
+            <Route path='/sign-in' element={<Login handleLogin={handleLogin}/>} />
             <Route 
-              path='/'
-              element={loggedIn ? <Navigate to='/main' replace/> : <Navigate to='/sign-in' replace/>}/>
+              path='/' element={loggedIn ? <Navigate to='/main' replace/> : <Navigate to='/sign-in' replace/>}/>
             <Route 
               path='/main'
               element={
                 <ProtectedRoute
                   element={Main}
+                  cards={cards}
                   loggedIn={loggedIn}
                   onEditProfile={handleEditProfileClick}
                   onAddPlace={handleEditPlaceClick}
@@ -191,8 +222,6 @@ function App() {
                   onLikeClick={handleCardLike}
                   onDeleteClick={handleCardDelete}/>
               }/>
-              <Route path='/sign-in' element={<Login handleLoginFail={handleLoginFail} handleLogin = {handleLogin}/>} />
-              <Route path='/sign-up' element={<Register handleRegister={handleRegister}/>} />
           </Routes>
           <Footer/>
           <EditProfilePopup
@@ -224,6 +253,7 @@ function App() {
         </div>
       </CurrentUserContext.Provider>
     </CardsContext.Provider>
+    
   )
 }
 

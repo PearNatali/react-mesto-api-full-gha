@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const Login = ({handleLogin}) => {
+function Auth(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -12,15 +12,16 @@ const Login = ({handleLogin}) => {
     }
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        handleLogin(email, password)
+        props.onSubmit(email, password)
     }
     return (
         <div className="auth">
             <form 
                 action="#" 
+                name={props.name} 
                 className="auth__form" 
                 onSubmit={handleSubmit}>
-            <h3 className="auth__title">Вход</h3>
+            <h3 className="auth__title">{props.title}</h3>
             <div className="auth__container">
                 <input 
                     type="email" 
@@ -44,11 +45,12 @@ const Login = ({handleLogin}) => {
             </div>
                 <button 
                     className="auth__button" 
-                    type="submit">Войти
+                    type="submit">{props.buttonText}
                 </button>
+                {props.children}
             </form>
         </div>
     )
 }
 
-export default Login
+export default Auth

@@ -1,43 +1,43 @@
 class Api {
-    constructor({ baseUrl }) {
-        this._baseurl = baseUrl;
-    };
-    setHeaders(token) {
-        this._headers = {
-          'Content-Type': 'application/json',
-          'authorization': token
-        }
+    constructor({url, headers}) {
+        this._url = url;
+        this._headers = headers;
     };
     _checkRequest(res) {
         if (res.ok) {
             return res.json();
         } else {
             console.log();
-            return Promise.reject(`Ошибка: ${res.status}`)
+            return Promise.reject(`${res.status} ${res.statusText}`)
         }
     };
-    _processGetQuery(additionalUrl) {
-        return fetch(`${this._baseUrl}${additionalUrl}`, {
-          headers: this._headers
-        })
-          .then(res => this._checkRequest(res))
-      }
     getInitialCards() {
-        return this._processGetQuery('/cards');
+        const newUrl = this._url + '/cards';
+        return fetch(newUrl, {
+            headers: this._headers,
+        })
+        .then(this._checkRequest);
     };
     getUserInfo() {
-        return this._processGetQuery('/users/me');
+        const newUrl = this._url + '/users/me';
+        return fetch(newUrl, {
+            headers: this._headers,
+        })
+        .then(this._checkRequest);
     };
     updateUserInfo({ name, about }) {
-        return fetch(`${this._baseUrl}/users/me`, {
+        const newUrl = this._url + '/users/me';
+        return fetch(newUrl, {
             method: 'PATCH',
             headers: this._headers,
             body: JSON.stringify({ name, about }),
         })
-        .then(res => this._checkRequest(res));
-    };
+        .then(this._checkRequest);
+    }
+
     addCard(data) {
-        return fetch(`${this._baseUrl}/cards`, {
+        const newUrl = this._url + '/cards'
+        return fetch(newUrl, {
           method: 'POST',
           headers: this._headers,
           body: JSON.stringify({
@@ -45,42 +45,50 @@ class Api {
             link: data.link
           })
         })
-        .then(res => this._checkRequest(res));
-    };
+        .then(this._checkRequest);
+    }
+
     changeAvatar(link) {
-        return fetch(`${this._baseUrl}/users/me/avatar`, {
+        const newUrl = this._url + `/users/me/avatar`;
+        return fetch(newUrl, {
             method: 'PATCH',
             headers: this._headers,
             body: JSON.stringify({
                 avatar: link
             })
         })
-        .then(res => this._checkRequest(res));
-    };
+        .then(this._checkRequest);
+    }
     toggleLike(isLiked, cardId) {
         let method = 'PUT';
         if (isLiked) {
           method = 'DELETE'
         }
-        return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+        return fetch(this._url + `/cards/likes/${cardId}`, {
           method,
           headers: this._headers
         })
           .then(res => this._checkRequest(res))
-    };
+    }
     deleteCard(cardId) {
-        return fetch(`${this._baseUrl}/cards/${cardId}`, {
+        const newUrl = this._url + `/cards/${cardId}`;
+        return fetch(newUrl, {
           method: 'DELETE',
           headers: this._headers,
         })
-        .then(res => this._checkRequest(res))
-    };
+        .then(this._checkRequest);
+    }
     getPageData(){
         return Promise.all([this.getInitialCards(), this.getUserInfo()]);
-    }''
-};
+    }
+
+}
 const api = new Api({
-    baseUrl: 'https://pearnatali.nomoredomains.rocks'
+    url: 'https://mesto.nomoreparties.co/v1/cohort-60',
+    headers: {
+      authorization: '85f06e80-de44-4742-a336-98b95e372a23',
+      'Content-Type': 'application/json'
+    }
 });
 
 export default api
