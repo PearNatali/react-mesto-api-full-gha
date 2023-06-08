@@ -25,23 +25,63 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isPopupPictureOpen, setIsPopupPictureOpen] = useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
-  const [isRegisterSuccess] = useState(false);
+  const [isRegisterSuccess, setIsTooltipSuccess] = useState(false);
   const [selectedCard, setSelectedCard] = useState({ });
   const [currentUser, setCurrentUser] = useState({ });
   const [cards, setCards] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [email, setEmail] = useState('');
+  const navigate = useNavigate();
+
+  const handleRegister = (isRegisterSuccess) => {
+    setIsInfoTooltipOpen(true);
+    setIsTooltipSuccess(isRegisterSuccess);
+  }
+
+  const handleLogin = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+        api.setHeaders(token);
+        Promise.all([api.getUserInfo(), api.getInitialCards()])
+            .then(([userData, cards]) => {
+                setCurrentUser(userData);
+                setCards(cards);
+                setLoggedIn(true);
+                navigate("/main", {replace: true});
+            })
+            .catch(err => console.log(err))
+    }
+  }
+
+  const handleLoginFail = () => {
+    setIsInfoTooltipOpen(true);
+    setIsTooltipSuccess(false);
+}
+
+  const handleSignOut = () => {
+    setLoggedIn(false);
+    setCurrentUser({});
+    setCards([]);
+    localStorage.removeItem('token');
+  }
 
   useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getInitialCards()])
-      .then(res => {
-        setCurrentUser(res[0]);
-        setCards(res[1])
-      })
-      .catch(err => console.log(err))
-    handleTokenCheck();
+    checkToken();
   }, []);
 
+  const checkToken = () => {
+    const token = localStorage.getItem('token');
+        if (token) {
+            api.setHeaders(token);
+            Promise.all([api.getUserInfo(), api.getInitialCards()])
+                .then(([userData, cards]) => {
+                    setCurrentUser(userData);
+                    setCards(cards);
+                    setLoggedIn(true);
+                    navigate("/main", {replace: true});
+                })
+                .catch(err => console.log(err))
+        }
+  };
 
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
@@ -127,60 +167,13 @@ function App() {
         })
         .catch(err => console.log(err))
   }
-  const navigate = useNavigate();
-
-  const handleRegister = (email, password) => {
-    auth.register(email, password)
-      .then(() => {
-          navigate('/sign-in', {replace: true});
-          handleRegister(true)
-        })
-      .catch(err => {
-        handleRegister(false)
-        console.log(err)
-      })
-  }
-
-  const handleLogin = (email, password) => {
-    auth.authorize(email, password)
-      .then((data) => {
-        if (data && data.token) {
-          handleLogin(true);
-          navigate('/main' , {replace: true});
-        } else {
-          alert('Неверный логин или пароль')
-        }
-      })
-      .catch(err => console.log(err));
-  }
-
-  const handleSignOut = () => {
-    setLoggedIn(false);
-    setEmail(' ');
-    localStorage.removeItem('token');
-  }
-
-  const handleTokenCheck = () => {
-    if (localStorage.getItem('token')) {
-      const token = localStorage.getItem('token');
-      auth.checkToken(token)
-        .then(res => {
-          if (res) {
-            setLoggedIn(true);
-            setEmail(res.data.email);
-            navigate('/main', {replace: true})
-          }
-        })
-        .catch(err => console.log(err))
-    }
-  }
 
   return (
     <CardsContext.Provider value={cards}>
       <CurrentUserContext.Provider value={currentUser}>
         <div className='page'>
           <div className='page__content'>
-          <Header email={email} onSignOut={handleSignOut} />
+          <Header onSignOut={handleSignOut} />
           <Routes>
             <Route 
               path='/'
@@ -198,7 +191,7 @@ function App() {
                   onLikeClick={handleCardLike}
                   onDeleteClick={handleCardDelete}/>
               }/>
-              <Route path='/sign-in' element={<Login handleLogin={handleLogin}/>} />
+              <Route path='/sign-in' element={<Login handleLogin={handleLogin} checkToken = {checkToken}/>} />
               <Route path='/sign-up' element={<Register handleRegister={handleRegister}/>} />
           </Routes>
           <Footer/>
@@ -231,7 +224,6 @@ function App() {
         </div>
       </CurrentUserContext.Provider>
     </CardsContext.Provider>
-    
   )
 }
 

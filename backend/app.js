@@ -6,22 +6,21 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
-const cors = require('cors');
 
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 const signupRouter = require('./routes/signup');
 const signinRouter = require('./routes/signin');
+const auth = require('./middlewares/auth');
+const handleErrors = require('./middlewares/handleErrors');
+const corsHandler = require('./middlewares/corsHandler');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { PORT, MONGO_DB } = require('./app.config');
 
-const auth = require('./middlewares/auth');
-const handleErrors = require('./middlewares/handleErrors');
 const { NotFoundError } = require('./errors/NotFoundError');
 
 const app = express();
-
-app.use(cors())
 
 mongoose.connect(MONGO_DB);
 
@@ -37,6 +36,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+app.use(requestLogger);
+app.use(corsHandler);
+
 app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Сервер сейчас упадет');
@@ -51,6 +53,7 @@ app.use(auth);
 app.use('/users', usersRouter);
 app.use('/cards', cardsRouter);
 
+app.use(errorLogger);
 app.use(errors());
 
 app.use((req, res, next) => {

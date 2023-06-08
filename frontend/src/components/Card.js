@@ -21,7 +21,11 @@ function Card(props) {
         <li className="card-template" id = "card-template">
             <article className="card__item">
                 <div className="card__img">
-                    <img className="card__photo" src={card.link} name="name" alt={card.name} onClick={handleCardClick}/>
+                    <img className="card__photo" 
+                        src={card.link} 
+                        name="name" 
+                        alt={card.name} 
+                        onClick={handleCardClick}/>
                 </div>
                 {isOwn &&
                     <div className="card__button">
