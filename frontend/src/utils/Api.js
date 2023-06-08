@@ -84,11 +84,7 @@ class Api {
 
 }
 const api = new Api({
-    url: 'https://mesto.nomoreparties.co/v1/cohort-60',
-    headers: {
-      authorization: '85f06e80-de44-4742-a336-98b95e372a23',
-      'Content-Type': 'application/json'
-    }
+    url: 'https://api.pearnatali.nomoredomains.rocks',
 });
 
 export default api
