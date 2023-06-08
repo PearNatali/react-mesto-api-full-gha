@@ -7,9 +7,7 @@ const { AuthError } = require('../errors/AuthError');
 const extractBearerToken = (header) => header.replace('Bearer ', '');
 
 module.exports = (req, res, next) => {
-  console.log(req.headers);
   const { authorization: jwtToken } = req.headers;
-  console.log({ jwtToken });
   if (!jwtToken) {
     next(new AuthError('Authorization require'));
     return;
@@ -23,7 +21,7 @@ module.exports = (req, res, next) => {
     next(new AuthError(err.message));
     return;
   }
-  console.log({payload, token, JWT_SECRET, NODE_ENV});
+
   req.user = payload;
 
   next();
