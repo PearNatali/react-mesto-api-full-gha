@@ -4,7 +4,7 @@ const { NODE_ENV, JWT_SECRET } = require('../app.config');
 
 const { AuthError } = require('../errors/AuthError');
 
-const extractBearerToken = (header) => header.replace('Bearer', '');
+const extractBearerToken = (header) => header.replace('Bearer ', '');
 
 module.exports = (req, res, next) => {
   console.log(req.headers);
