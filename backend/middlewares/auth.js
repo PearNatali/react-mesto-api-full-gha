@@ -23,6 +23,7 @@ module.exports = (req, res, next) => {
     next(new AuthError(err.message));
     return;
   }
+  console.log({payload, token, JWT_SECRET, NODE_ENV});
   req.user = payload;
 
   next();
