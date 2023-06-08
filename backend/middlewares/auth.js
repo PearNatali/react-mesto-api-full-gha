@@ -9,6 +9,7 @@ const extractBearerToken = (header) => header.replace('Bearer', '');
 module.exports = (req, res, next) => {
   console.log(req.headers);
   const { authorization: jwtToken } = req.headers;
+  console.log({ jwtToken });
   if (!jwtToken) {
     next(new AuthError('Authorization require'));
     return;
