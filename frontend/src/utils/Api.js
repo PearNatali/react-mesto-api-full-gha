@@ -71,7 +71,8 @@ class Api {
           .then(res => this._checkRequest(res))
     }
     deleteCard(cardId) {
-        return fetch(this._url + `/cards/${cardId}/likes`, {
+        const newUrl = this._url + `/cards/${cardId}`;
+        return fetch(newUrl, {
           method: 'DELETE',
           headers: this._headers,
         })
@@ -83,9 +84,9 @@ class Api {
 
 }
 const api = new Api({
-    url: 'https://api.pearnatali.nomoredomains.rocks',
+    url: 'api.pearnatali.nomoredomains.rocks',
     headers: {
-      authorization: 'Bearer ' +localStorage.getItem('token'),
+      authorization: 'Bearer '+localStorage.getItem('token'),
       'Content-Type': 'application/json'
     }
 });

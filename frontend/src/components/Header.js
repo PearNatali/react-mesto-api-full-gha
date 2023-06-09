@@ -1,11 +1,10 @@
 import logo from '../images/logo.svg';
-import {useContext, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import {CurrentUserContext} from '../contexts/CurrentUserContext'
 
-function Header({ onSignOut }) {
+function Header({email, onSignOut}) {
     const [headerInfo, setHeaderInfo] = useState({});
-    const currentUser = useContext(CurrentUserContext)
+
     const location = useLocation();
 
     const handleLinkClick = () => {
@@ -18,7 +17,7 @@ function Header({ onSignOut }) {
         let headerInfo = {};
         if (location.pathname === '/main') {
             headerInfo = {
-                email: currentUser.hasOwnProperty*('email') && currentUser.email,
+                email: email,
                 link: '/sign-in',
                 linkText: 'Выйти'
             }
@@ -40,12 +39,12 @@ function Header({ onSignOut }) {
 
     return (
         <header className="header">
-            <a href="/" className="header__link-logo">
+            <div href="/" className="header__link-logo">
                 <img 
                     src={logo} 
                     alt="Логотип" 
                     className="header__logo"/>
-            </a>
+            </div>
             <div className="header__info">
                 <p className="header__email">{headerInfo.email}</p>
                 <Link 

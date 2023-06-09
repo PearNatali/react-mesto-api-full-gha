@@ -161,9 +161,9 @@ function App() {
     auth.authorize(email, password)
       .then((data) => {
         if(data && data.token) {
-          localStorage.setItem('token', data.token);
           setLoggedIn(true);
           setEmail(email);
+          localStorage.setItem('token', data.token);
           navigate('/main' , {replace: true});
         } else {
           alert ("Неверный логин или пароль")
@@ -184,7 +184,7 @@ function App() {
 
  const handleTokenCheck = () => {
       const token = localStorage.getItem('token');
-      if (token) {
+      if (localStorage.getItem('token')) {
       auth.checkToken(token)
         .then((res) => {
           if (res) {
