@@ -64,7 +64,7 @@ class Api {
         if (isLiked) {
           method = 'DELETE'
         }
-        return fetch(this._url + `/cards/likes/${cardId}`, {
+        return fetch(this._url + `/cards/${cardId}/likes`, {
           method,
           headers: this._headers
         })
