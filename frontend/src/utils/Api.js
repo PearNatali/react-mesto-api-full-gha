@@ -71,8 +71,7 @@ class Api {
           .then(res => this._checkRequest(res))
     }
     deleteCard(cardId) {
-        const newUrl = this._url + `/cards/${cardId}`;
-        return fetch(newUrl, {
+        return fetch(this._url + `/cards/${cardId}/likes`, {
           method: 'DELETE',
           headers: this._headers,
         })
