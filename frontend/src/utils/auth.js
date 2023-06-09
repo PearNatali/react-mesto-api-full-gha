@@ -32,18 +32,11 @@ export const authorize = (email, password) => {
             },
             body: JSON.stringify({ email, password })
         })
-        .then((res) => {return checkRequest(res)})
-}
-
-export const checkToken = (token) => {
-    const newUrl = baseUrl + '/users/me';
-        return fetch(newUrl, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
+        .then(res => checkRequest(res))
+        .then((data) => {
+            if (data.token){
+                localStorage.setItem('token', data.token);
+                return data;
             }
         })
-        .then((res) => {return checkRequest(res)})
 }
