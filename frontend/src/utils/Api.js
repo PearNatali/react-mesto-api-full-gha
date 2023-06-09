@@ -60,7 +60,7 @@ class Api {
         .then(this._checkRequest);
     }
     toggleLike(isLiked, cardId) {
-        const newUrl = this._url +`/cards/${cardId}`;
+        const newUrl = this._url +`/cards/${cardId}/likes`
         let method = 'PUT';
         if (isLiked) {
           method = 'DELETE'
@@ -72,7 +72,7 @@ class Api {
           .then(res => this._checkRequest(res))
     }
     deleteCard(cardId) {
-        const newUrl = this._url + `/cards/${cardId}`;
+        const newUrl = this._url + `/cards/${cardId}/likes`;
         return fetch(newUrl, {
           method: 'DELETE',
           headers: this._headers,
