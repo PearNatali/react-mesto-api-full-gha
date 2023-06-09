@@ -1,5 +1,5 @@
 const allowedCors = [
-  'https://pearnatali.nomoredomains.rocks',
+  'https://api.pearnatali.nomoredomains.rocks',
 ];
 const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
 
