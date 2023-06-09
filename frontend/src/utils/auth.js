@@ -1,4 +1,4 @@
-export const baseUrl = 'https://api.pearnatali.nomoredomains.rocks';
+export const baseUrl = 'https://auth.nomoreparties.co';
 
 export const checkRequest = (res) => {
     if (res.ok) {
