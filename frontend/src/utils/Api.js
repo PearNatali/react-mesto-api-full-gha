@@ -84,7 +84,7 @@ class Api {
 
 }
 const api = new Api({
-    url: 'api.pearnatali.nomoredomains.rocks',
+    url: 'https://api.pearnatali.nomoredomains.rocks',
     headers: {
       authorization: 'Bearer '+localStorage.getItem('token'),
       'Content-Type': 'application/json'
