@@ -25,7 +25,7 @@ const createUsers = (req, res, next) => {
     .then((user) => res.status(201).send(getUserDto(user)))
     .catch((err) => {
       if (err.code === 11000) {
-        next(new ConflictError('User with this email already exist'));
+        next(new ConflictError('Пользователь с такой почтой существует'));
       } else {
         next(err);
       }
