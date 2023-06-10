@@ -161,9 +161,9 @@ function App() {
     auth.authorize(email, password)
       .then((data) => {
         if(data && data.token) {
+          localStorage.setItem('token', data.token);
           setLoggedIn(true);
           setEmail(email);
-          localStorage.setItem('token', data.token);
           navigate('/main' , {replace: true});
         } else {
           alert ("Неверный логин или пароль")
