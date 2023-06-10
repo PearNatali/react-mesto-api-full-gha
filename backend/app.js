@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 const { errors } = require('celebrate');
 
 const usersRouter = require('./routes/users');
@@ -13,7 +14,6 @@ const signupRouter = require('./routes/signup');
 const signinRouter = require('./routes/signin');
 const auth = require('./middlewares/auth');
 const handleErrors = require('./middlewares/handleErrors');
-const corsHandler = require('./middlewares/corsHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { PORT, MONGO_DB } = require('./app.config');
@@ -36,7 +36,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use(corsHandler);
+app.use(cors);
 app.use(requestLogger);
 
 app.get('/crash-test', () => {
