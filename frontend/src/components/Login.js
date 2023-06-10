@@ -1,53 +1,36 @@
-import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import * as auth from '../utils/auth.js';
+import Auth from './Auth';
 
-const Login = ({handleLogin}) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-
-    const handleEmailChange = (evt) => {
-        setEmail(evt.target.value)
-    }
-    const handlePasswordChange = (evt) => {
-        setPassword(evt.target.value)
-    }
-    const handleSubmit = (evt) => {
-        evt.preventDefault();
-        handleLogin(email, password)
+const Login = ({handleLogin, handleLoginFail }) => {
+    const handleSubmit = (email, password) => {
+        if (!email || !password){
+            return;
+        }
+        auth.authorize(email, password)
+            .then((data) => {
+                if (data && data.token) {
+                    handleLogin();
+                } else {
+                    alert("Неверный логин или пароль")
+                }
+            })
+            .catch(err => {
+                handleLoginFail();
+                console.log(err);
+            });
     }
     return (
-        <div className="auth">
-            <form 
-                action="#" 
-                className="auth__form" 
-                onSubmit={handleSubmit}>
-            <h3 className="auth__title">Вход</h3>
-            <div className="auth__container">
-                <input 
-                    type="email" 
-                    className="auth__input" 
-                    name="email" 
-                    value={email}
-                    placeholder="Email" 
-                    required 
-                    onChange={handleEmailChange}/>
+        <Auth
+            onSubmit={handleSubmit}
+            title={'Вход'}
+            buttonText={'Войти'}
+        >
+            <div className="auth__option">
+                <p className="auth__option-text">Ещё не зарегистрированы?&nbsp;</p>
+                <Link to="/sign-up" className="auth__option-link">Зарегистрироваться</Link>
             </div>
-            <div className="auth__container">
-                <input 
-                    type="password" 
-                    className="auth__input" 
-                    name="password"
-                    value={password} 
-                    placeholder="Пароль" 
-                    required 
-                    minLength="8" 
-                    onChange={handlePasswordChange}/>
-            </div>
-                <button 
-                    className="auth__button" 
-                    type="submit">Войти
-                </button>
-            </form>
-        </div>
+        </Auth>
     )
 }
 

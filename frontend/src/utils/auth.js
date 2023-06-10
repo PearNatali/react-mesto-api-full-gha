@@ -41,15 +41,15 @@ export const authorize = (email, password) => {
         })
 }
 
-export const checkToken = (token) => {
-    const newUrl = baseUrl + '/users/me';
-        return fetch(newUrl, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-            }
-        })
-        .then((res) => {return checkRequest(res)})
-}
+//export const checkToken = (token) => {
+//    const newUrl = baseUrl + '/users/me';
+//        return fetch(newUrl, {
+//            method: 'GET',
+//            headers: {
+//                'Accept': 'application/json',
+//                'Content-Type': 'application/json',
+//                'Authorization': `Bearer ${token}`,
+//            }
+//        })
+//        .then((res) => {return checkRequest(res)})
+//}

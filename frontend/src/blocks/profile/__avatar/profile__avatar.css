@@ -4,6 +4,7 @@
     border-radius: 50%;
     justify-content: center;
     display: flex;
+    object-fit: cover;
 }
 
 @media screen and (max-width: 770px) {

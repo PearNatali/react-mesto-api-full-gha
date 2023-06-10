@@ -1,8 +1,14 @@
 class Api {
     constructor({url, headers}) {
         this._url = url;
-        this._headers = headers;
     };
+
+    setHeaders(token) {
+        this._headers = {
+          'Content-Type': 'application/json',
+          'authorization': token,
+        }
+      }
     _checkRequest(res) {
         if (res.ok) {
             return res.json();
@@ -78,17 +84,13 @@ class Api {
         })
         .then(this._checkRequest);
     }
-    getPageData(){
-        return Promise.all([this.getInitialCards(), this.getUserInfo()]);
-    }
+    //getPageData(){
+    //    return Promise.all([this.getInitialCards(), this.getUserInfo()]);
+    //}
 
 }
 const api = new Api({
     url: 'https://api.pearnatali.nomoredomains.rocks',
-    headers: {
-      'authorization': 'Bearer '+localStorage.getItem('token'),
-      'Content-Type': 'application/json'
-    }
 });
 
 export default api
