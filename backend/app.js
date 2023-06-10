@@ -4,7 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-const cookieParser = require('cookie-parser');
+// const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const { errors } = require('celebrate');
 
@@ -15,10 +15,9 @@ const signinRouter = require('./routes/signin');
 const auth = require('./middlewares/auth');
 const handleErrors = require('./middlewares/handleErrors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { NotFoundError } = require('./errors/NotFoundError');
 
 const { PORT, MONGO_DB } = require('./app.config');
-
-const { NotFoundError } = require('./errors/NotFoundError');
 
 const app = express();
 
@@ -33,8 +32,8 @@ const limiter = rateLimit({
 app.use(limiter);
 app.use(helmet());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+// app.use(express.urlencoded({ extended: true }));
+// app.use(cookieParser());
 
 app.use(cors());
 app.use(requestLogger);
