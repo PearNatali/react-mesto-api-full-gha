@@ -6,7 +6,7 @@ const { AuthError } = require('../errors/AuthError');
 
 const extractBearerToken = (header) => header.replace('Bearer ', '');
 
-module.exports = (req, res, next) => {
+const auth = (req, res, next) => {
   const { authorization: jwtToken } = req.headers;
   if (!jwtToken) {
     next(new AuthError('Необходима авторизация'));
@@ -26,3 +26,5 @@ module.exports = (req, res, next) => {
 
   next();
 };
+
+module.exports = { auth };
