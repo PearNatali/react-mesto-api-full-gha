@@ -32,7 +32,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [email, setEmail] = useState('');
 
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
     useEffect(() => {
       handleTokenCheck()
