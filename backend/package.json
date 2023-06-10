@@ -17,7 +17,7 @@
   "bugs": {
     "url": "https://github.com/PearNatali/express-mesto-gha/issues"
   },
-  "homepage": "/",
+  "homepage": "https://github.com/PearNatali/express-mesto-gha#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "celebrate": "^15.0.1",
