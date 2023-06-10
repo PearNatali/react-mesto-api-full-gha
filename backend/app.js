@@ -33,10 +33,10 @@ const limiter = rateLimit({
 app.use(limiter);
 app.use(helmet());
 app.use(express.json());
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use(cors());
 app.use(requestLogger);
 
 app.get('/crash-test', () => {
