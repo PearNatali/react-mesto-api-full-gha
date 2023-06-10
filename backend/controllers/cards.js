@@ -14,7 +14,6 @@ const getCards = (req, res, next) => {
     .then((cards) => res.send(cards))
     .catch((next));
 };
-
 const createCard = (req, res, next) => {
   const { name, link } = req.body;
   const { _id: userId } = req.user;
@@ -24,56 +23,53 @@ const createCard = (req, res, next) => {
     .then((card) => res.status(201).send(getCardDto(card)))
     .catch((next));
 };
-
 const deleteCard = (req, res, next) => {
   const { _id: cardId } = req.params;
   const { _id: userId } = req.user;
 
   if (!isValidId(cardId)) {
-    next(new BadRequestError('Invalid card Id'));
+    next(new BadRequestError('Некорректное ID карточки'));
     return;
   }
 
   Card.findById(cardId)
-    .orFail(new NotFoundError('Card not found'))
+    .orFail(new NotFoundError('Карточка не найдена'))
     .populate(['owner', 'likes'])
     .then((card) => {
       if (card.owner._id.toString() !== userId) {
-        throw new AccessDeniedError('Not enough rights to delete card');
+        throw new AccessDeniedError('Недостаточно прав для удаления карточки');
       }
       return card.deleteOne();
     })
     .then((card) => res.send(getCardDto(card)))
     .catch((next));
 };
-
 const getLike = (req, res, next) => {
   const { _id: cardId } = req.params;
   const { _id: userId } = req.user;
 
   if (!isValidId(cardId)) {
-    next(new BadRequestError('Invalid card Id'));
+    next(new BadRequestError('Некорректное ID карточки'));
     return;
   }
 
   Card.findByIdAndUpdate(cardId, { $addToSet: { likes: userId } }, { new: true })
-    .orFail(new NotFoundError('Card not found'))
+    .orFail(new NotFoundError('Карточка не найдена'))
     .populate(['owner', 'likes'])
     .then((card) => res.send(getCardDto(card)))
     .catch((next));
 };
-
 const deleteLike = (req, res, next) => {
   const { _id: cardId } = req.params;
   const { _id: userId } = req.user;
 
   if (!isValidId(cardId)) {
-    next(new BadRequestError('Invalid card Id'));
+    next(new BadRequestError('Некорректное ID карточки'));
     return;
   }
 
   Card.findByIdAndUpdate(cardId, { $pull: { likes: { $in: [userId] } } }, { new: true })
-    .orFail(new NotFoundError('Card not found'))
+    .orFail(new NotFoundError('Карточка не найдена'))
     .populate(['owner', 'likes'])
     .then((card) => res.send(getCardDto(card)))
     .catch((next));

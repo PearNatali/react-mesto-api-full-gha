@@ -25,13 +25,12 @@ const createUsers = (req, res, next) => {
     .then((user) => res.status(201).send(getUserDto(user)))
     .catch((err) => {
       if (err.code === 11000) {
-        next(new ConflictError('Пользователь с такой почтой существует'));
+        next(new ConflictError('Пользователь с указанной почтой существует'));
       } else {
         next(err);
       }
     });
 };
-
 const login = (req, res, next) => {
   const { email, password } = req.body;
 
@@ -46,52 +45,47 @@ const login = (req, res, next) => {
     })
     .catch(next);
 };
-
 const getUsers = (req, res, next) => {
   User.find({})
     .then((users) => res.send(users))
     .catch(next);
 };
-
 const getUserById = (req, res, next) => {
   const { _id } = req.params;
 
   if (!isValidId(_id)) {
-    next(new BadRequestError('Invalid card Id'));
+    next(new BadRequestError('Некорректное ID карточки'));
     return;
   }
 
   User.findById(_id)
-    .orFail(new NotFoundError('User not found'))
+    .orFail(new NotFoundError('Пользователь не найден'))
     .then((user) => res.send(getUserDto(user)))
     .catch((next));
 };
-
 const getCurrentUser = (req, res, next) => {
   const { _id } = req.user;
 
   User.findById(_id)
-    .orFail(new NotFoundError('User not found'))
+    .orFail(new NotFoundError('Пользователь не найден'))
     .then((user) => res.send(getUserDto(user)))
     .catch((next));
 };
-
 const updateProfile = (req, res, next) => {
   const { name, about } = req.body;
   const { _id } = req.user;
 
   User.findByIdAndUpdate(_id, { name, about }, { new: true, runValidators: true })
-    .orFail(new NotFoundError('User not found'))
+    .orFail(new NotFoundError('Пользователь не найден'))
     .then((user) => res.send(getUserDto(user)))
     .catch((next));
 };
-
 const updateAvatar = (req, res, next) => {
   const { avatar } = req.body;
   const { _id } = req.user;
 
   User.findByIdAndUpdate(_id, { avatar }, { new: true, runValidators: true })
-    .orFail(new NotFoundError('User not found'))
+    .orFail(new NotFoundError('Пользователь не найден'))
     .then((user) => res.send(getUserDto(user)))
     .catch((next));
 };

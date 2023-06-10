@@ -4,7 +4,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-// const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const { errors } = require('celebrate');
 
@@ -32,8 +31,6 @@ const limiter = rateLimit({
 app.use(limiter);
 app.use(helmet());
 app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
-// app.use(cookieParser());
 
 app.use(cors());
 app.use(requestLogger);
@@ -56,7 +53,7 @@ app.use(errorLogger);
 app.use(errors());
 
 app.use((req, res, next) => {
-  next(new NotFoundError('Endpoint does not exist'));
+  next(new NotFoundError('Конечная точка не существует'));
 });
 
 app.use(handleErrors);

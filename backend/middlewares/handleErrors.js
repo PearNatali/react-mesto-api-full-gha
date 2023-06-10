@@ -6,7 +6,7 @@ module.exports = (err, req, res, next) => {
   if (err instanceof mongoose.Error.ValidationError) {
     res.status(400).send({ message });
   } else if (statusCode === 500) {
-    res.status(statusCode).send({ message: 'Internal server error' });
+    res.status(statusCode).send({ message: 'Внутренняя ошибка сервера' });
   } else {
     res.status(statusCode).send({ message });
   }
