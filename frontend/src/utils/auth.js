@@ -33,6 +33,12 @@ export const authorize = (email, password) => {
             body: JSON.stringify({ email, password })
         })
         .then((res) => {return checkRequest(res)})
+        .then((data) => {
+            if (data.token){
+                localStorage.setItem('token', data.token);
+                return data;
+            }
+        })
 }
 
 export const checkToken = (token) => {
