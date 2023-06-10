@@ -11,7 +11,6 @@ import AddPlacePopup from "./AddPlacePopup";
 import Login from "./Login";
 import InfoTooltip from "./InfoTooltip";
 import Register from "./Register";
-// import * as auth from '../utils/auth';
 import ProtectedRoute from "./ProtectedRoute";
 
 import api from "../utils/Api";
@@ -25,56 +24,19 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isPopupPictureOpen, setIsPopupPictureOpen] = useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
-  // const [isRegisterSuccess, setIsRegisterSuccess] = useState(false);
   const [isTooltipSuccess, setIsTooltipSuccess] = useState(false);
   const [selectedCard, setSelectedCard] = useState({name: '', link: ''});
   const [currentUser, setCurrentUser] = useState({ });
   const [cards, setCards] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
-  // const [email, setEmail] = useState('');
 
   const navigate = useNavigate();
 
-    //useEffect(() => {
-    //  handleTokenCheck()
-    // 
-    //}, [])
-  
-  // const handleRegister = (email, password) => {
-  //  if (!email || !password) {
-  //    return;
-  //  }
-  //    auth.register(email, password)
-  //      .then((res) => {
-  //        setIsInfoTooltipOpen(true);
-  //        if(res) {
-  //          navigate('/sign-in', {replace: true});
-  //          setIsRegisterSuccess(true);
-  //        }
-  //      })
-  //      .catch(() => {
-  //        setIsInfoTooltipOpen(true);
-  //        setIsRegisterSuccess(false);
-  //      });
-  //}
-    
-  // useEffect(() => {
-  //    if (loggedIn) {
-  //    Promise.all([api.getUserInfo(), api.getInitialCards()])
-  //          .then(([userData, cards]) => {
-   //           setCurrentUser(userData);
-   //           setCards(cards)
-  //          })
-  //          .catch(err => console.log(err))
-  //    }
-   //   }, [loggedIn])
   const handleRegister = (isRegisterSuccess) => {
     setIsInfoTooltipOpen(true);
     setIsTooltipSuccess(isRegisterSuccess);
   }
   const handleLogin = () => {
-    // if (!email || !password){
-    //  return;
     const token = localStorage.getItem('token');
     if (token) {
       api.setHeaders(token);
@@ -95,7 +57,6 @@ function App() {
 
   const handleSignOut = () => {
     setLoggedIn(false);
-    // setEmail(' ');
     setCurrentUser({});
     setCards([]);
     localStorage.removeItem('token');
@@ -104,21 +65,6 @@ function App() {
   useEffect(() => {
     handleLogin();
   }, []);
-
- // const handleTokenCheck = () => {
- //   const token = localStorage.getItem('token');
-  //  if (localStorage.getItem('token')) {
-  //  auth.checkToken(token)
-  //    .then((res) => {
-  //      if (res) {
-  //        setLoggedIn(true);
-  //        setEmail(res.data.email);
-  //        navigate('/main', {replace: true})
-  //      }
-  //    })
-  //    .catch(err => console.log(err))
-  //}
-//}
 
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
@@ -256,7 +202,6 @@ function App() {
             isOpen={isInfoTooltipOpen}
             onButtonClose={closeAllPopups}
             onOverlayClose={closePopupByOverlayClick}
-            // isRegisterSuccess={isRegisterSuccess}/>
             isTooltipSuccess={isTooltipSuccess}/>
           </div>
         </div>
