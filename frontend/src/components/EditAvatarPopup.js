@@ -34,4 +34,3 @@ function EditAvatarPopup(props) {
 }
 
 export default EditAvatarPopup
-

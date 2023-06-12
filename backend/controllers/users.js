@@ -6,8 +6,8 @@ const User = require('../models/user');
 const { getUserDto } = require('../dto/user');
 
 const { NotFoundError } = require('../errors/NotFoundError');
-const { ConflictError } = require('../errors/ConflictError');
 const { BadRequestError } = require('../errors/BadRequestError');
+const { ConflictError } = require('../errors/ConflictError');
 
 const { NODE_ENV, JWT_SECRET } = require('../app.config');
 
@@ -22,10 +22,10 @@ const createUsers = (req, res, next) => {
     .then((hash) => User.create({
       name, about, avatar, email, password: hash,
     }))
-    .then((user) => res.send(getUserDto(user)))
+    .then((user) => res.status(201).send(getUserDto(user)))
     .catch((err) => {
       if (err.code === 11000) {
-        next(new ConflictError('Пользователь с указанной почтой существует'));
+        next(new ConflictError('Пользователь с такой почтой существует'));
       } else {
         next(err);
       }
@@ -41,7 +41,7 @@ const login = (req, res, next) => {
         NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
         { expiresIn: '7d' },
       );
-      res.send({ token });
+      res.status(200).send({ token });
     })
     .catch(next);
 };

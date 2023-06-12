@@ -7,14 +7,14 @@ const { errors } = require('celebrate');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 
-const handleErrors = require('./middlewares/handleErrors');
-const { requestLogger, errorLogger } = require('./middlewares/logger');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 const signupRouter = require('./routes/signup');
 const signinRouter = require('./routes/signin');
 const auth = require('./middlewares/auth');
 const { NotFoundError } = require('./errors/NotFoundError');
+const handleErrors = require('./middlewares/handleErrors');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { PORT, MONGO_DB } = require('./app.config');
 

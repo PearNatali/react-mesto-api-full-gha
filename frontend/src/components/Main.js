@@ -41,8 +41,7 @@ function Main(props) {
                         onLikeClick={props.onLikeClick} 
                         onDeleteClick={props.onDeleteClick}
                         key={card._id} 
-                        card={card}
-                        />
+                        card={card}/>
                     )}
                 </ul>
             </section>

@@ -61,7 +61,7 @@ function EditProfilePopup(props) {
                         value={description}
                         onChange={handleDescriptionChange}/>
                     <span id="job-profile-error" className="error"></span>
-            </PopupWithForm>
+        </PopupWithForm>
     )
 }
 
