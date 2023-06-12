@@ -10,7 +10,7 @@ const Register = ({handleRegister}) =>  {
         }
         return auth.register(email, password)
             .then(() => {
-                navigate('/sign-in', {replace: true});
+                navigate('/signin', {replace: true});
                 handleRegister(true);
             })
             .catch(err => {
@@ -28,7 +28,7 @@ const Register = ({handleRegister}) =>  {
             
             <div className="auth__option">
                 <p className="auth__option-title">Уже зарегистрированы?&nbsp;</p>
-                <Link to="/sign-in" className="auth__option-link">Войти</Link>
+                <Link to="/signin" className="auth__option-link">Войти</Link>
             </div>
         </Auth>
     )

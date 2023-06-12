@@ -19,19 +19,19 @@ function Header({email, onSignOut}) {
         if (location.pathname === '/main') {
             headerInfo = {
                 email: currentUser.hasOwnProperty('email') && currentUser.email,
-                link: '/sign-in',
+                link: '/signin',
                 linkText: 'Выйти'
             }
-        } else if (location.pathname === '/sign-up') {
+        } else if (location.pathname === '/signup') {
             headerInfo = {
                 email: '',
-                link: '/sign-in',
+                link: '/signin',
                 linkText: 'Войти'
             }
-        } else if (location.pathname === '/sign-in') {
+        } else if (location.pathname === '/signin') {
             headerInfo = {
                 email: '',
-                link: '/sign-up',
+                link: '/signup',
                 linkText: 'Регистрация'
             }
         }

@@ -28,7 +28,7 @@ const Login = ({handleLogin, handleLoginFail }) => {
         >
             <div className="auth__option">
                 <p className="auth__option-title">Ещё не зарегистрированы?&nbsp;</p>
-                <Link to="/sign-up" className="auth__option-link">Зарегистрироваться</Link>
+                <Link to="/signup" className="auth__option-link">Зарегистрироваться</Link>
             </div>
         </Auth>
     )
