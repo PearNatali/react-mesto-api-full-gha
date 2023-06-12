@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
@@ -6,8 +7,11 @@ const { getUserDto } = require('../dto/user');
 
 const { NotFoundError } = require('../errors/NotFoundError');
 const { ConflictError } = require('../errors/ConflictError');
+const { BadRequestError } = require('../errors/BadRequestError');
 
 const { NODE_ENV, JWT_SECRET } = require('../app.config');
+
+const isValidId = (id) => mongoose.isValidObjectId(id);
 
 const createUsers = (req, res, next) => {
   const {
@@ -48,6 +52,11 @@ const getUsers = (req, res, next) => {
 };
 const getUserById = (req, res, next) => {
   const { _id } = req.params;
+
+  if (!isValidId(_id)) {
+    next(new BadRequestError('Некорректное ID карточки'));
+    return;
+  }
 
   User.findById(_id)
     .orFail(new NotFoundError('Пользователь не найден'))
