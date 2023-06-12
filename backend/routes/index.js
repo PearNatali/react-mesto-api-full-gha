@@ -1,8 +1,8 @@
 const router = require('express').Router();
 const { celebrate } = require('celebrate');
 
-const cardRouter = require('./cards');
-const userRouter = require('./users');
+const cardsRouter = require('./cards');
+const usersRouter = require('./users');
 const auth = require('../middlewares/auth');
 const { NotFoundError } = require('../errors/NotFoundError');
 
@@ -15,8 +15,8 @@ const { userDataValidationCreate } = require('../validation/validationRules');
 router.post('/signup', celebrate(userDataValidationCreate), createUsers);
 router.post('/signin', celebrate(userDataValidationLogin), login);
 router.use(auth);
-router.use('/users', userRouter);
-router.use('/cards', cardRouter);
+router.use('/users', usersRouter);
+router.use('/cards', cardsRouter);
 
 router.use((req, res, next) => {
   next(new NotFoundError('Маршрут не найден'));
