@@ -17,12 +17,11 @@ const app = express();
 
 mongoose.connect(MONGO_DB);
 
+app.use(express.json());
+app.use(cors());
 app.use(requestLogger);
 app.use(limiter);
 app.use(helmet());
-app.use(express.json());
-
-app.use(cors());
 
 app.get('/crash-test', () => {
   setTimeout(() => {
