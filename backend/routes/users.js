@@ -1,4 +1,4 @@
-const userRouter = require('express').Router();
+const usersRouter = require('express').Router();
 const { celebrate } = require('celebrate');
 
 const {
@@ -15,10 +15,10 @@ const {
   userAvatarValidationObject,
 } = require('../validation/validationRules');
 
-userRouter.get('/', getUsers);
-userRouter.get('/me', getCurrentUser);
-userRouter.get('/:_id', celebrate(userIdValidationObject), getUserById);
-userRouter.patch('/me', celebrate(userDataValidationObject), updateProfile);
-userRouter.patch('/me/avatar', celebrate(userAvatarValidationObject), updateAvatar);
+usersRouter.get('/', getUsers);
+usersRouter.get('/me', getCurrentUser);
+usersRouter.get('/:_id', celebrate(userIdValidationObject), getUserById);
+usersRouter.patch('/me', celebrate(userDataValidationObject), updateProfile);
+usersRouter.patch('/me/avatar', celebrate(userAvatarValidationObject), updateAvatar);
 
-module.exports = userRouter;
+module.exports = usersRouter;
