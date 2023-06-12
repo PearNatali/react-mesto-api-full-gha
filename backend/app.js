@@ -22,11 +22,12 @@ const app = express();
 
 mongoose.connect(MONGO_DB);
 
+app.use(limiter);
 app.use(helmet());
 app.use(express.json());
+
 app.use(cors());
 app.use(requestLogger);
-app.use(limiter);
 
 app.get('/crash-test', () => {
   setTimeout(() => {
@@ -46,7 +47,7 @@ app.use(errorLogger);
 app.use(errors());
 
 app.use((req, res, next) => {
-  next(new NotFoundError('Конечная точка не существует'));
+  next(new NotFoundError('Маршрут не найден'));
 });
 
 app.use(handleErrors);
