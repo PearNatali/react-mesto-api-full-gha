@@ -17,8 +17,8 @@ const app = express();
 mongoose.connect(MONGO_DB);
 
 app.use(express.json());
-app.use(requestLogger);
 app.use(cors());
+app.use(requestLogger);
 app.use(limiter);
 
 app.get('/crash-test', () => {
