@@ -9,7 +9,7 @@
 
 ## Ссылки на проект
 
-IP-адрес 84.252.128.116
+IP 84.252.128.116
 
 Frontend https://pearnatali.nomoredomains.rocks
 
