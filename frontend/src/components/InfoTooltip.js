@@ -12,7 +12,7 @@ function InfoTooltip(props) {
                 type="button" 
                 aria-label="закрыть"
                 onClick={props.onButtonClose}/>
-            {props.isRegisterSuccess ? <InfoTooltipSuccess/> : <InfoTooltipFail/>}
+            {props.isTooltipSuccess ? <InfoTooltipSuccess/> : <InfoTooltipFail/>}
         </div>
     </div>
     )

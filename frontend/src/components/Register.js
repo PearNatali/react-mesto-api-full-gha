@@ -10,8 +10,8 @@ const Register = ({handleRegister}) =>  {
         }
         return auth.register(email, password)
             .then(() => {
-                navigate('/sign-in', {replace: true});
                 handleRegister(true);
+                navigate('/sign-in', {replace: true});
             })
             .catch(err => {
                 handleRegister(false)
