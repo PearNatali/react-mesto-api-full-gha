@@ -8,7 +8,7 @@ const { errors } = require('celebrate');
 const limiter = require('./middlewares/limiter');
 const handleErrors = require('./middlewares/handleErrors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const routes = require('./routes/index');
+const router = require('./routes/index');
 
 const { PORT, MONGO_DB } = require('./app.config');
 
@@ -27,7 +27,7 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-app.use(routes);
+app.use(router);
 
 app.use(errorLogger);
 app.use(errors());
