@@ -22,4 +22,4 @@ router.use((req, res, next) => {
   next(new NotFoundError('Маршрут не найден'));
 });
 
-module.exports = userRouter;
+module.exports = router;
