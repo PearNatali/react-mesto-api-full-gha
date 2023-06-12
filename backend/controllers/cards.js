@@ -1,12 +1,8 @@
-const mongoose = require('mongoose');
 const Card = require('../models/card');
 const { getCardDto } = require('../dto/card');
 
 const { NotFoundError } = require('../errors/NotFoundError');
 const { AccessDeniedError } = require('../errors/AccessDeniedError');
-const { BadRequestError } = require('../errors/BadRequestError');
-
-const isValidId = (id) => mongoose.isValidObjectId(id);
 
 const getCards = (req, res, next) => {
   Card.find({})
@@ -27,11 +23,6 @@ const deleteCard = (req, res, next) => {
   const { _id: cardId } = req.params;
   const { _id: userId } = req.user;
 
-  if (!isValidId(cardId)) {
-    next(new BadRequestError('Некорректное ID карточки'));
-    return;
-  }
-
   Card.findById(cardId)
     .orFail(new NotFoundError('Карточка не найдена'))
     .populate(['owner', 'likes'])
@@ -48,11 +39,6 @@ const getLike = (req, res, next) => {
   const { _id: cardId } = req.params;
   const { _id: userId } = req.user;
 
-  if (!isValidId(cardId)) {
-    next(new BadRequestError('Некорректное ID карточки'));
-    return;
-  }
-
   Card.findByIdAndUpdate(cardId, { $addToSet: { likes: userId } }, { new: true })
     .orFail(new NotFoundError('Карточка не найдена'))
     .populate(['owner', 'likes'])
@@ -62,11 +48,6 @@ const getLike = (req, res, next) => {
 const deleteLike = (req, res, next) => {
   const { _id: cardId } = req.params;
   const { _id: userId } = req.user;
-
-  if (!isValidId(cardId)) {
-    next(new BadRequestError('Некорректное ID карточки'));
-    return;
-  }
 
   Card.findByIdAndUpdate(cardId, { $pull: { likes: { $in: [userId] } } }, { new: true })
     .orFail(new NotFoundError('Карточка не найдена'))
