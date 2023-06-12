@@ -6,16 +6,10 @@ const cors = require('cors');
 const { errors } = require('celebrate');
 const helmet = require('helmet');
 
-const usersRouter = require('./routes/users');
-const cardsRouter = require('./routes/cards');
-const signupRouter = require('./routes/signup');
-const signinRouter = require('./routes/signin');
-const auth = require('./middlewares/auth');
-
-const { NotFoundError } = require('./errors/NotFoundError');
 const handleErrors = require('./middlewares/handleErrors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const limiter = require('./middlewares/limiter');
+const router = require('./routes/index');
 
 const { PORT, MONGO_DB } = require('./app.config');
 
@@ -35,20 +29,10 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-app.use('/signup', signupRouter);
-app.use('/signin', signinRouter);
-
-app.use(auth);
-
-app.use('/users', usersRouter);
-app.use('/cards', cardsRouter);
+app.use(router);
 
 app.use(errorLogger);
 app.use(errors());
-
-app.use((req, res, next) => {
-  next(new NotFoundError('Маршрут не найден'));
-});
 
 app.use(handleErrors);
 
