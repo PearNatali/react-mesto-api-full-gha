@@ -158,10 +158,10 @@ function App() {
           <div className="page__content">
           <Header onSignOut={handleSignOut} />
           <Routes>
-            <Route path='/signup' element={<Register handleRegister={handleRegister}/>} />
-            <Route path='/signin' element={<Login handleLoginFail={handleLoginFail} handleLogin={handleLogin}/>} />
+            <Route path='/sign-up' element={<Register handleRegister={handleRegister}/>} />
+            <Route path='/sign-in' element={<Login handleLoginFail={handleLoginFail} handleLogin={handleLogin}/>} />
             <Route 
-              path='/' element={loggedIn ? <Navigate to='/main' replace/> : <Navigate to='/signin' replace/>}/>
+              path='/' element={loggedIn ? <Navigate to='/main' replace/> : <Navigate to='/sign-in' replace/>}/>
             <Route 
               path='/main'
               element={

@@ -1,6 +1,5 @@
-const usersRouter = require('express').Router();
+const router = require('express').Router();
 const { celebrate } = require('celebrate');
-
 const {
   getUsers,
   getCurrentUser,
@@ -8,17 +7,16 @@ const {
   updateProfile,
   updateAvatar,
 } = require('../controllers/users');
-
 const {
   userIdValidationObject,
   userDataValidationObject,
   userAvatarValidationObject,
 } = require('../validation/validationRules');
 
-usersRouter.get('/', getUsers);
-usersRouter.get('/me', getCurrentUser);
-usersRouter.get('/:_id', celebrate(userIdValidationObject), getUserById);
-usersRouter.patch('/me', celebrate(userDataValidationObject), updateProfile);
-usersRouter.patch('/me/avatar', celebrate(userAvatarValidationObject), updateAvatar);
+router.get('/', getUsers);
+router.get('/me', getCurrentUser);
+router.get('/:_id', celebrate(userIdValidationObject), getUserById);
+router.patch('/me', celebrate(userDataValidationObject), updateProfile);
+router.patch('/me/avatar', celebrate(userAvatarValidationObject), updateAvatar);
 
-module.exports = usersRouter;
+module.exports = router;
