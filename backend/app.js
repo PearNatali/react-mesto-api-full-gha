@@ -5,16 +5,17 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const { errors } = require('celebrate');
 const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
 
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 const signupRouter = require('./routes/signup');
 const signinRouter = require('./routes/signin');
 const auth = require('./middlewares/auth');
+
 const { NotFoundError } = require('./errors/NotFoundError');
 const handleErrors = require('./middlewares/handleErrors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const limiter = require('./middlewares/limiter');
 
 const { PORT, MONGO_DB } = require('./app.config');
 
@@ -22,19 +23,11 @@ const app = express();
 
 mongoose.connect(MONGO_DB);
 
-const limiter = rateLimit({
-  legacyHeaders: false,
-  windowMS: 15 * 60 * 1000,
-  max: 100,
-  standardHeaders: true,
-});
-
+app.use(requestLogger);
 app.use(limiter);
 app.use(helmet());
 app.use(express.json());
-
 app.use(cors());
-app.use(requestLogger);
 
 app.get('/crash-test', () => {
   setTimeout(() => {
